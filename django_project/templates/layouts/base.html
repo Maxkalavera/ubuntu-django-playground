@@ -1,0 +1,45 @@
+{% load staticfiles %}
+
+{% include 'layouts/partials/doctype.html' %}
+<html>
+
+  <head>
+    {% block page_title %}{% endblock %}
+
+    {% block page_favicon %}
+      {% include 'layouts/partials/favicon.html' %}
+    {% endblock %}
+
+    <!-- Meta data-->
+    {% block page_base_meta %}
+      {% include 'layouts/partials/meta.html' %}
+    {% endblock %}
+    {% block page__meta %}{% endblock %}
+
+    <!-- Meta data related to web apps -->
+    {% block page_base_webapp %}
+      {% include 'layouts/partials/webapp.html' %}
+    {% endblock %}
+    {% block page_webapp %}{% endblock %}
+
+    <!-- CSS -->
+    {% block page_main_css %}
+    {% endblock %}
+    {% block page_css %}{% endblock %}
+
+    <!-- Js scripts used in the header -->
+    {% block page_base_header_js %}{% endblock %}
+    {% block page_header_js %}{% endblock %}
+  </head>
+
+  <body>
+    {% block page_header %}{% endblock %}
+    {% block page_navbar %}{% endblock %}
+    {% block page_content %}{% endblock %}
+    {% block page_footer %}{% endblock %}
+  </body>
+
+  {% block page_base_footer_js %}{% endblock %}
+  {% block page_footer_js %}{% endblock %}
+
+</html>

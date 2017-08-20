@@ -1,0 +1,63 @@
+{% load staticfiles %}
+
+<!-- This is a list of the basic favicons, anyway my recomendation is to use a
+     favicon generator that builds all this verbose automaticlly , but having
+     control of what you make is always a perk. -->
+
+<!-- general icons -->
+<link rel="icon" type="image/png" sizes="16x16"
+  href="{% static '' %}"/>
+<link rel="shortcut icon"  sizes="16x16" type="image/png"
+  href="{% static '' %}"/>
+
+<link rel="icon" type="image/png" sizes="32x32"
+  href="{% static '' %}"/>
+<link rel="shortcut icon"  sizes="32x32" type="image/png"
+  href="{% static '' %}"/>
+
+<link rel="icon" type="image/png" sizes="96x96"
+  href="{% static '' %}"/>
+<link rel="shortcut icon"  sizes="96x96" type="image/png"
+  href="{% static '' %}"/>
+
+<!-- for Hi-definition Web apps -->
+<link rel="icon" sizes="128x128" href="{% static '' %}">
+<link rel="icon" sizes="168x168" href="{% static '' %}">
+<link rel="icon" sizes="192x192" href="{% static '' %}">
+
+<!-- for iphone -->
+<link rel="apple-touch-icon" href="{% static '' %}">
+<!-- for ipad -->
+<link rel="apple-touch-icon" sizes="152x152"
+  href="{% static '' %}">
+<!-- for iphone with retina -->
+<link rel="apple-touch-icon" sizes="180x180"
+  href="{% static '' %}">
+<!-- for ipad with retina -->
+<link rel="apple-touch-icon" sizes="167x167"
+  href="{% static '' %}">
+<!-- On iOS this is a launch screen image that is displayed
+     while a web application launches. -->
+<link rel="apple-touch-startup-image" href="{% static '...launch.png' %}">
+<!-- Some older Apple-touch-icons's resolutions. -->
+<link rel="apple-touch-icon" sizes="57x57" href="{% static '' %}">
+<link rel="apple-touch-icon" sizes="60x60" href="{% static '' %}">
+<link rel="apple-touch-icon" sizes="72x72" href="{% static '' %}">
+<link rel="apple-touch-icon" sizes="76x76" href="{% static '' %}">
+<link rel="apple-touch-icon" sizes="114x114" href="{% static '' %}">
+<link rel="apple-touch-icon" sizes="120x120" href="{% static '' %}">
+<link rel="apple-touch-icon" sizes="144x144" href="{% static '' %}">
+<link rel="apple-touch-icon" sizes="152x152" href="{% static '' %}">
+
+<!-- Add Windows 8 tile icon -->
+<meta name="msapplication-square70x70logo" content="{% static '' %}" />
+<meta name="msapplication-square150x150logo" content="{% static '' %}" />
+<meta name="msapplication-wide310x150logo" content="{% static '' %}" />
+<meta name="msapplication-square310x310logo" content="{% static '' %}" />
+
+<!-- Or if you prefer you can configure all this in an xml, the next statement
+     shows how to load this xml as msapplication config, in the webapp.html
+     file there is more meta's tags related to the window's apps
+     configuration. -->
+<meta name="msapplication-config"
+  content="{% static '/meta/browerconfig.xml' %}" />

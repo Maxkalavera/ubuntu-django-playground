@@ -1,0 +1,23 @@
+<!-- Googles's manifest for Web apps -->
+<!-- there's is one manifest in the static files as example -->
+<!-- This is useful if you want to show your web service as a web app in
+     google's mobile devices. -->
+<link rel="manifest" href="{% static '/meta/manifest.json' %}">
+
+
+<!-- Windows tiles: now this is metadata to use your web service as an app
+     in windows's devices. -->
+<meta name="application-name" content="django-project" />
+<meta name="msapplication-tooltip" content="This is a little description
+  of my django project." />
+<!-- An entry point to your service in a Windows app -->
+<meta name="msapplication-starturl" content="/" />
+<!-- Initial size of the app minimum could be 800x600-->
+<meta name="msapplication-window" content="width=1024;height=768" />
+
+<meta name="msapplication-TileColor" content="#000000" />
+<!-- Back and fordward buttons color -->
+<meta name="msapplication-navbutton-color" content="#FFFFF" />
+<!-- How to set icons for the tiles's examples can be found in the favicon.html
+     also there's is an example of a browerconfig.xml that can be use to
+     configurate further more this web app. -->

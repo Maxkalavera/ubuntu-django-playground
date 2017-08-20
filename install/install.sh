@@ -1,15 +1,14 @@
 #!/bin/bash
 
+# Constants
 PROJECT_ROOT=.
-# some variables are taken of this env file, for example PROJECT_NAME  can
-# be found here.
-ENV_PATH=$PROJECT_ROOT/conf/.env
-source $ENV_PATH
-
 INSTALL_FOLDER=$PROJECT_ROOT/install/
 DJANGO_ROOT=./$PROJECT_NAME/
 
 PIP_FOLDER=venv
+
+# Global variables
+project_name=
 
 ###############################################################################
 # Utils
@@ -24,6 +23,9 @@ function finish-env {
 }
 
 function hello-world {
+  output=maxkalavera
+  sed -i 's/cosa/'$output'/g' stuff.txt
+  cat stuff.txt
   print 'Hello word!'
 }
 
@@ -35,8 +37,16 @@ function print-current-path {
   print $PWD
 }
 
-function print-project-name {
-  print $PROJECT_NAME
+function get-project-name {
+  if [ -d $PROJECT_ROOT/django_project/ ]; then
+    option=n
+    while [ $option != y ]; do
+      echo 'Enter the name to set to your django project:'
+      read project_name
+      echo 'Are you sure you want to use $project_name as your project name? y/n'
+      read option
+    done
+  fi
 }
 
 ###############################################################################
@@ -55,6 +65,8 @@ function clean-venv {
 # test functions
 ###############################################################################
 
+# This should go in another script that could be or coudn't not be executed
+# in a enviroment.
 function test-uwsgi {
   uwsgi --http :8000 --wsgi-file $PROJECT_ROOT/test/uwsgi_test.py
 }
@@ -63,6 +75,19 @@ function test-uwsgi {
 # Installation functions
 ###############################################################################
 
+# This should go in another script that could be or coudn't not be executed
+# in a enviroment.
+function install-pip-requirements {
+  print 'Installing pip requirements'
+  pip install -r $INSTALL_FOLDER/requirements.txt
+}
+
+# This should go in another script that could be or coudn't not be executed
+function install-dependencies {
+  install-pip-requirements
+}
+
+############### General
 function before-install {
   sudo apt-get autoremove && apt-get update
 }
@@ -71,6 +96,21 @@ function install-python {
   sudo apt-get install python3.5 python3-pip python3-dev
 }
 
+function set-up-django: {
+  get-project-name
+  if [ -d $PROJECT_ROOT/django_project/ ]; then
+    sed -i 's/django_project.settings/'$project_name'.settings/g' \
+      $PROJECT_ROOT/django_project/manage.py
+    sed -i 's/django_project.settings/'$project_name'.settings/g' \
+      $PROJECT_ROOT/django_project/django_project/wsgi.py
+    mv $PROJECT_ROOT/django_project/django_project/ \
+      $PROJECT_ROOT/django_project/$project_name
+    mv $PROJECT_ROOT/django_project/ $PROJECT_ROOT/$project_name
+  fi
+}
+
+# in a enviroment.
+############### Virtualenv
 function install-virtualenv {
   print 'Instaling virtualenv'
   pip3 install virtualenv
@@ -80,35 +120,11 @@ function install-virtualenv {
   ln -s $PROJECT_ROOT/$PIP_FOLDER/bin/activate $PROJECT_ROOT/env
 }
 
-function install-pip-requirements {
-  print 'Installing pip requirements'
-  pip install -r $INSTALL_FOLDER/requirements.txt
-}
-
 function install-pip-requirements-in-virtualenv {
   start-env
   print 'Installing pip requirements'
   pip install -r $INSTALL_FOLDER/requirements.txt
   finish-env
-}
-
-function install-vagrant-with-virtualbox {
-  # vagrant==1:1.9.7
-  # virtualbox==5.0.40
-  sudo apt-get install vagrant=1:1.9.7 virtualbox=5.0.40*
-}
-
-function set-up-django: {
-  mv $PROJECT_ROOT/django_project/django_project/ \
-    $PROJECT_ROOT/django_project/$PROJECT_NAME
-  mv $PROJECT_ROOT/django_project/ $PROJECT_ROOT/$PROJECT_NAME
-}
-
-function set-up-enviroment-vagrant {
-  before-install
-  install-python
-  install-vagrant-with-virtualbox
-  set-up-django
 }
 
 function set-up-enviroment-virtualenv {
@@ -119,9 +135,23 @@ function set-up-enviroment-virtualenv {
   set-up-django
 }
 
-function install-dependencies {
-  install-pip-requirements
+############### Vagrant
+function install-vagrant-with-virtualbox {
+  # vagrant==1:1.9.7
+  # virtualbox==5.0.40
+  sudo apt-get install vagrant=1:1.9.7 virtualbox=5.0.40*
 }
 
+function set-up-enviroment-vagrant {
+  before-install
+  install-python
+  install-vagrant-with-virtualbox
+  set-up-django
+}
+
+###############################################################################
+# Main
+###############################################################################
+
 # Call function from arguments
-$*
+$1

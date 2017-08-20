@@ -1,0 +1,42 @@
+{
+  "name": "Django project",
+  "short_name": "django-project",
+  "description": "An example of a Web app interface.",
+  "start_url": ".",
+  "lang": "es",
+
+  ​​"orientation": "portrait-primary",
+  "display": "standalone",
+  "background_color": "#fff",
+  "dir": "rtl",
+
+  "prefer_related_applications": false,
+  "scope": "/",
+  "start_url": "/",
+
+  "icons": [{
+    "src": "",
+    "sizes": "48x48",
+    "type": "image/png"
+  }, {
+    "src": "",
+    "sizes": "72x72",
+    "type": "image/png"
+  }, {
+    "src": "",
+    "sizes": "96x96",
+    "type": "image/png"
+  }, {
+    "src": "",
+    "sizes": "144x144",
+    "type": "image/png"
+  }, {
+    "src": "",
+    "sizes": "168x168",
+    "type": "image/png"
+  }, {
+    "src": "",
+    "sizes": "192x192",
+    "type": "image/png"
+  }]
+}
