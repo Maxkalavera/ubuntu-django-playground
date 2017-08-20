@@ -9,6 +9,8 @@ source $ENV_PATH
 INSTALL_FOLDER=$PROJECT_ROOT/install/
 DJANGO_ROOT=./$PROJECT_NAME/
 
+PIP_FOLDER=venv
+
 ###############################################################################
 # Utils
 ###############################################################################
@@ -96,14 +98,17 @@ function install-vagrant-with-virtualbox {
   sudo apt-get install vagrant=1:1.9.7 virtualbox=5.0.40*
 }
 
-function create-django-project {
-  django-admin.py $PROJECT_NAME
+function set-up-django: {
+  mv $PROJECT_ROOT/django_project/django_project/ \
+    $PROJECT_ROOT/django_project/$PROJECT_NAME
+  mv $PROJECT_ROOT/django_project/ $PROJECT_ROOT/$PROJECT_NAME
 }
 
 function set-up-enviroment-vagrant {
   before-install
   install-python
   install-vagrant-with-virtualbox
+  set-up-django
 }
 
 function set-up-enviroment-virtualenv {
@@ -111,6 +116,7 @@ function set-up-enviroment-virtualenv {
   install-python
   install-virtualenv
   install-pip-requirements-in-virtualenv
+  set-up-django
 }
 
 function install-dependencies {

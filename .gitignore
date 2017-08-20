@@ -101,3 +101,6 @@ venv
 
 # Uwsgi port 8000 test
 8000
+
+# Vagrant
+.vagrant/
