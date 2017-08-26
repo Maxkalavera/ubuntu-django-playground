@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# This part load the .env files into the configuration of the Vagrant file
+# uncomment if needed an install dotenv in the way is specified.
+# Requierments install with 'vagrant plugin install' if for some reasons not
+# get installed
+# dotenv
+#unless Vagrant.has_plugin?('dotenv')
+#  raise 'dotenv is required to use this machine
+#         use vagrant plugin install dotenv'
+#else
+#  current_dir = File.expand_path File.dirname(__FILE__)
+#  require 'dotenv'
+#  PROJECT_ENVS = Dotenv.load
+#end
+
+PROJECT_FOLDER = \
+  File.basename File.absolute_path File.dirname File.dirname(__FILE__)
+
+Vagrant.configure('2') do |config|
+  config.vm.box = 'ubuntu/trusty32'
+	config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-i386-vagrant-disk1.box'
+  config.vm.network 'forwarded_port', guest: 80, host: 8080
+	config.ssh.forward_agent = true
+	config.vm.synced_folder '..',
+    '/home/vagrant/' + PROJECT_FOLDER + '/', create: true
+	#config.vm.provision 'shell' do |s|
+  #  s.inline = '. ./install/install.sh $1'
+  #  s.args   = ['install-dependencies']
+  #end
+
+end

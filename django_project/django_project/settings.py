@@ -1,10 +1,5 @@
+from os.path import abspath, dirname, basename
 
-from os.path import abspath, dirname, normpath, join
-
-from dotenv import load_dotenv
-
-
-ENV_PATH = normpath(
-    join(dirname(dirname(dirname(abspath(__file__)))), 'conf/.env'))
-print(ENV_PATH)
-load_dotenv(ENV_PATH)
+PROJECT_ROOT = dirname(dirname(dirname(abspath(__file__))))
+DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+PROJECT_NAME = basename(DJANGO_ROOT)

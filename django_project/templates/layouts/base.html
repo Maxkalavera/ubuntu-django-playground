@@ -1,10 +1,12 @@
 {% load staticfiles %}
 
-{% include 'layouts/partials/doctype.html' %}
-<html>
+<!-- Html5 Doctype -->
+<!DOCTYPE html>
+<html lang="es">
 
   <head>
-    {% block page_title %}{% endblock %}
+    <title>{% block page_title %}{% endblock %}</title>
+    <meta name="description" content="{% block page_description %}{% endblock %}">
 
     {% block page_favicon %}
       {% include 'layouts/partials/favicon.html' %}
@@ -26,6 +28,10 @@
     {% block page_main_css %}
     {% endblock %}
     {% block page_css %}{% endblock %}
+
+    {% block page_main_fonts %}
+    {% endblock %}
+    {% block page_fonts %}{% endblock %}
 
     <!-- Js scripts used in the header -->
     {% block page_base_header_js %}{% endblock %}

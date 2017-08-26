@@ -1,16 +1,22 @@
 #!/usr/bin/env python
 import os
 import sys
-from os.path import abspath, dirname, normpath, join
+from os.path import abspath, dirname, join, normpath, basename
 
 from dotenv import load_dotenv
 
-ENV_PATH = normpath(join(dirname(dirname(abspath(__file__))), 'conf/.env'))
-load_dotenv(ENV_PATH)
+PROJECT_ROOT = dirname(dirname(abspath(__file__)))
+DJANGO_ROOT = dirname(abspath(__file__))
+PROJECT_NAME = basename(DJANGO_ROOT)
+
+ENV_FILE = normpath(join(PROJECT_ROOT, 'conf/.env'))
+load_dotenv(ENV_FILE)
+
+
 
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                          'django_project.settings')
+                          PROJECT_NAME + '.settings')
 
     try:
         from django.core.management import execute_from_command_line

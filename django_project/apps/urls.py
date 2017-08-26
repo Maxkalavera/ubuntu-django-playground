@@ -1,10 +1,8 @@
 from django.conf.urls import url
-from django.contrib import admin
 
 from home.views import index
 
 urlpatterns = [
-    url(r'^$', index, name='index')
     # in case of user admin of django
     # url(r'^admin/', admin.site.urls),
     # This is an example of including a namespace that will extend of this
@@ -13,4 +11,6 @@ urlpatterns = [
     # url(r'^$', Index.as_view(), name='index')
     # this is an exammple of including a generic class based view
     # url(r'^namespace/$', include('namespace.urls', namespace='namespace'))
+
+    url(r'^$', index, name='index')
 ]

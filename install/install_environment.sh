@@ -2,13 +2,16 @@
 
 # Constants
 PROJECT_ROOT=.
+DJANGO_ROOT=$PROJECT_ROOT/$PROJECT_NAME/
 INSTALL_FOLDER=$PROJECT_ROOT/install/
-DJANGO_ROOT=./$PROJECT_NAME/
+CONF_FOLDER=$PROJECT_ROOT/conf/
 
+# LOAD .env variables into this bash script
+# user variables as any other for example if you have a env variable called
+# PROJECT_NAME you can access it from this script like any other variable
+# echo $PROJECT_NAME
 PIP_FOLDER=venv
-
-# Global variables
-project_name=
+source $CONF_FOLDER/.env
 
 ###############################################################################
 # Utils
@@ -23,9 +26,6 @@ function finish-env {
 }
 
 function hello-world {
-  output=maxkalavera
-  sed -i 's/cosa/'$output'/g' stuff.txt
-  cat stuff.txt
   print 'Hello word!'
 }
 
@@ -35,18 +35,6 @@ function print {
 
 function print-current-path {
   print $PWD
-}
-
-function get-project-name {
-  if [ -d $PROJECT_ROOT/django_project/ ]; then
-    option=n
-    while [ $option != y ]; do
-      echo 'Enter the name to set to your django project:'
-      read project_name
-      echo 'Are you sure you want to use $project_name as your project name? y/n'
-      read option
-    done
-  fi
 }
 
 ###############################################################################
@@ -61,15 +49,6 @@ function clean-venv {
   rm venv
 }
 
-###############################################################################
-# test functions
-###############################################################################
-
-# This should go in another script that could be or coudn't not be executed
-# in a enviroment.
-function test-uwsgi {
-  uwsgi --http :8000 --wsgi-file $PROJECT_ROOT/test/uwsgi_test.py
-}
 
 ###############################################################################
 # Installation functions
@@ -77,15 +56,15 @@ function test-uwsgi {
 
 # This should go in another script that could be or coudn't not be executed
 # in a enviroment.
-function install-pip-requirements {
-  print 'Installing pip requirements'
-  pip install -r $INSTALL_FOLDER/requirements.txt
-}
+#function install-pip-requirements {
+#  print 'Installing pip requirements'
+#  pip install -r $INSTALL_FOLDER/requirements.txt
+#}
 
 # This should go in another script that could be or coudn't not be executed
-function install-dependencies {
-  install-pip-requirements
-}
+#function install-dependencies {
+#  install-pip-requirements
+#}
 
 ############### General
 function before-install {
@@ -96,17 +75,17 @@ function install-python {
   sudo apt-get install python3.5 python3-pip python3-dev
 }
 
-function set-up-django: {
-  get-project-name
-  if [ -d $PROJECT_ROOT/django_project/ ]; then
-    sed -i 's/django_project.settings/'$project_name'.settings/g' \
-      $PROJECT_ROOT/django_project/manage.py
-    sed -i 's/django_project.settings/'$project_name'.settings/g' \
-      $PROJECT_ROOT/django_project/django_project/wsgi.py
+# deprecated function
+function change-django-project-name {
+  PROJECT_NAME=django_project
+  if [ ! -d $PROJECT_ROOT/$PROJECT_NAME/ ]; then
     mv $PROJECT_ROOT/django_project/django_project/ \
-      $PROJECT_ROOT/django_project/$project_name
-    mv $PROJECT_ROOT/django_project/ $PROJECT_ROOT/$project_name
+      $PROJECT_ROOT/django_project/$PROJECT_NAME
+    mv $PROJECT_ROOT/django_project/ $PROJECT_ROOT/$PROJECT_NAME
   fi
+}
+
+function set-up-django: {
 }
 
 # in a enviroment.
@@ -120,26 +99,27 @@ function install-virtualenv {
   ln -s $PROJECT_ROOT/$PIP_FOLDER/bin/activate $PROJECT_ROOT/env
 }
 
-function install-pip-requirements-in-virtualenv {
-  start-env
-  print 'Installing pip requirements'
-  pip install -r $INSTALL_FOLDER/requirements.txt
-  finish-env
+############### Vagrant
+
+function install-vagrant-requirements {
+  vagrant plugin install dotenv
 }
+
+function install-vagrant-with-virtualbox {
+  echo 'vagrant==1:1.9.7'
+  echo 'virtualbox==5.0.40'
+  sudo apt-get install vagrant=1:1.9.7 virtualbox=5.0.40*
+}
+
+###############################################################################
+# Set-up functions
+###############################################################################
 
 function set-up-enviroment-virtualenv {
   before-install
   install-python
   install-virtualenv
-  install-pip-requirements-in-virtualenv
   set-up-django
-}
-
-############### Vagrant
-function install-vagrant-with-virtualbox {
-  # vagrant==1:1.9.7
-  # virtualbox==5.0.40
-  sudo apt-get install vagrant=1:1.9.7 virtualbox=5.0.40*
 }
 
 function set-up-enviroment-vagrant {

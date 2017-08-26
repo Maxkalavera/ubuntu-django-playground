@@ -1,5 +1,5 @@
 PROJECT_ROOT=.
-INSTALL_SCRIPT_PATH=$(PROJECT_ROOT)/install/install.sh
+INSTALL_SCRIPT_PATH=$(PROJECT_ROOT)/install/install_environment.sh
 
 ###############################################################################
 # Utils targets
