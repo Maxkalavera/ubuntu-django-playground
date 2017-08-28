@@ -17,17 +17,46 @@
 
 PROJECT_FOLDER = \
   File.basename File.absolute_path File.dirname File.dirname(__FILE__)
+DJANGO_FOLDER = 'django_project'
 
 Vagrant.configure('2') do |config|
-  config.vm.box = 'ubuntu/trusty32'
-	config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-i386-vagrant-disk1.box'
-  config.vm.network 'forwarded_port', guest: 80, host: 8080
+  config.vm.box = 'ubuntu/trusty64'
+  config.vm.box_version = '20170811.0.1'
+	config.vm.box_url = 'http://cloud-images.ubuntu.com/vagrant/trusty/20170811/trusty-server-cloudimg-i386-vagrant-disk1.box'
+  config.vm.guest = 'linux'
+
 	config.ssh.forward_agent = true
-	config.vm.synced_folder '..',
+  config.ssh.keep_alive = true
+
+  config.vm.synced_folder '..',
     '/home/vagrant/' + PROJECT_FOLDER + '/', create: true
-	#config.vm.provision 'shell' do |s|
-  #  s.inline = '. ./install/install.sh $1'
-  #  s.args   = ['install-dependencies']
-  #end
+  config.vm.post_up_message = 'Wellcome to your project\'s environment!'
+
+  # route host machine 8080 to guess machine 8080
+  config.vm.network 'forwarded_port', guest: 8080, host: 8080
+  # This could be accually an alternative to forwarding ports
+  # To expose the machine to the local network
+  # Make sure the ip doesn't collide with another device
+  #config.vm.network "private_network", ip: "192.168.1.253"
+
+  config.ssh.shell = 'bash'
+  # Command to send environment variables to the machine
+  #config.ssh.forward_env = ['Env variable name']
+  #config.ssh.forward_env = PROJECT_ENVS.keys
+  # Command to make a provision, a script to execute right after setting up
+  # the environment.
+  config.vm.provision 'dependencies', type: 'shell' do |s|
+    s.inline = 'make'
+    s.args   = ['install-dependencies', '-C', './' + PROJECT_FOLDER + '/']
+    s.keep_color = true
+    s.name = 'Installing dependencies...'
+  end
+  # This one is for executing the django server
+  config.vm.provision 'run-django', type: 'shell', run: 'always' do |s|
+    s.inline = 'python'
+    s.args   = ['./' + PROJECT_FOLDER + DJANGO_FOLDER + '/manage.py',
+                'runserver', '0.0.0.0:8080']
+    s.name = 'Running django server'
+  end
 
 end
