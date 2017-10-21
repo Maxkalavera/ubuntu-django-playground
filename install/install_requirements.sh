@@ -1,8 +1,15 @@
+#!/bin/bash
 # These scripts could be or coudn't not be executed in a enviroment or not
 # that's why this instalations goes in this file.
 
-PROJECT_ROOT=.
-INSTALL_FOLDER=$PROJECT_ROOT/install/
+if [ ! "$BASH_VERSION" ] ; then
+    echo "This code should be executed with bash, use 'bash ./$0' or"\
+      "'bash $0' instead"
+    exit 0
+fi
+
+INSTALL_PATH=$(dirname $(realpath -s $0))
+ROOT_PATH=$(dirname $INSTALL_PATH)
 DJANGO_ROOT=$PROJECT_ROOT/$PROJECT_NAME/
 
 ###############################################################################
@@ -11,13 +18,13 @@ DJANGO_ROOT=$PROJECT_ROOT/$PROJECT_NAME/
 
 function install-pip-requirements {
   print 'Installing pip requirements'
-  pip install -r $INSTALL_FOLDER/requirements.txt
+  pip install -r $INSTALL_PATH/requirements.txt
 }
 
 function install-pip-requirements-in-virtualenv {
   start-env
   print 'Installing pip requirements'
-  pip install -r $INSTALL_FOLDER/requirements.txt
+  pip install -r $INSTALL_PATH/requirements.txt
   finish-env
 }
 

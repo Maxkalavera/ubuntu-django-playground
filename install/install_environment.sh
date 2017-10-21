@@ -1,9 +1,15 @@
 #!/bin/bash
 
+if [ ! "$BASH_VERSION" ] ; then
+    echo "This code should be executed with bash, use 'bash ./$0' or"\
+      "'bash $0' instead"
+    exit 0
+fi
+
 # Constants
-PROJECT_ROOT=.
+INSTALL_PATH=$(dirname $(realpath -s $0))
+ROOT_PATH=$(dirname $INSTALL_PATH)
 DJANGO_ROOT=$PROJECT_ROOT/$PROJECT_NAME/
-INSTALL_FOLDER=$PROJECT_ROOT/install/
 CONF_FOLDER=$PROJECT_ROOT/conf/
 
 # LOAD .env variables into this bash script
@@ -42,9 +48,9 @@ function print-current-path {
 ###############################################################################
 
 function clean-venv {
-  print 'Desinstalando venv'
+  print 'Uninstalling venv'
   sudo pip3 uninstall virtualenv
-  print 'Eliminando virtualenv directory'
+  print 'Removing virtualenv directory'
   rm -R ./$PIP_FOLDER/
   rm venv
 }
@@ -58,7 +64,7 @@ function clean-venv {
 # in a enviroment.
 #function install-pip-requirements {
 #  print 'Installing pip requirements'
-#  pip install -r $INSTALL_FOLDER/requirements.txt
+#  pip install -r $INSTALL_PATH/requirements.txt
 #}
 
 # This should go in another script that could be or coudn't not be executed

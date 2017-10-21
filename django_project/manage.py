@@ -13,8 +13,9 @@ ENV_FILE = normpath(join(PROJECT_ROOT, 'conf/.env'))
 load_dotenv(ENV_FILE)
 
 
-
 if __name__ == '__main__':
+    # The name of the django folder is also the name of the folder containing
+    # the settings
     os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                           PROJECT_NAME + '.settings')
 

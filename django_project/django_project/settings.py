@@ -9,7 +9,6 @@ PROJECT_NAME = basename(DJANGO_ROOT)
 ###############################################################################
 
 MIDDLEWARE = [
-
     # The per-site caching middleware, this middlewares allows django to cache
     # entire pages when are accesed, to use this middleware a cache backend
     # must be configurated first. for more information:
@@ -132,10 +131,14 @@ ADMINS = [
 
 DEBUG = False  # Never deploy a site into production with DEBUG turned on.
 
-# If set to True, Django’s exception handling of view functions (handler500,
+# If set to True, Django’s exception handling (handler500,
 # or the debug view if DEBUG is True) and logging of 500 responses
 # (django.request) is skipped and exceptions propagate upwards.
 DEBUG_PROPAGATE_EXCEPTIONS = False
+
+
+# TODO finish
+
 
 ###############################################################################
 # Date formats configuration
